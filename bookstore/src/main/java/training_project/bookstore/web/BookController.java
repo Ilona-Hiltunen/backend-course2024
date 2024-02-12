@@ -6,22 +6,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-
 import training_project.bookstore.domain.Book;
 import training_project.bookstore.domain.BookRepository;
+import training_project.bookstore.domain.CategoryRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-
-
-
-
 
 @Controller
 public class BookController {
     @Autowired
     private BookRepository repository;
+
+    @Autowired
+    private CategoryRepository cRepository;
 
     @GetMapping("index")
     public String showMainPage () {
@@ -34,9 +33,10 @@ public class BookController {
         return "booklist";
     }
 
-    @GetMapping("/addbook")
+    @RequestMapping("/addbook")
     public String addBook(Model model) {
         model.addAttribute("book", new Book());
+        model.addAttribute("categories", cRepository.findAll());
         return "addbook";
     }
 
@@ -55,6 +55,7 @@ public class BookController {
     @GetMapping("editbook/{id}")
     public String editBook(@PathVariable("id") Long id, Model model) {
         model.addAttribute("book", repository.findById(id));
+        model.addAttribute("categories", cRepository.findAll());
         return "editbook";
     }
     
