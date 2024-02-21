@@ -10,9 +10,6 @@ import training_project.bookstore.domain.Book;
 import training_project.bookstore.domain.BookRepository;
 import training_project.bookstore.domain.CategoryRepository;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class BookController {
@@ -33,7 +30,7 @@ public class BookController {
         return "booklist";
     }
 
-    @RequestMapping("/addbook")
+    @GetMapping("/addbook")
     public String addBook(Model model) {
         model.addAttribute("book", new Book());
         model.addAttribute("categories", cRepository.findAll());
@@ -46,13 +43,13 @@ public class BookController {
         return "redirect:/booklist";
     }
 
-    @GetMapping("deletebook/{id}")
+    @GetMapping("/deletebook/{id}")
     public String deleteBook(@PathVariable("id") Long id, Model model) {
         repository.deleteById(id);
         return "redirect:/booklist";
     }
     
-    @GetMapping("editbook/{id}")
+    @GetMapping("/editbook/{id}")
     public String editBook(@PathVariable("id") Long id, Model model) {
         model.addAttribute("book", repository.findById(id));
         model.addAttribute("categories", cRepository.findAll());
