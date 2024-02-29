@@ -8,6 +8,17 @@
 <body>
 	<h1>Books</h1>
     <table class="table table-striped">
+
+    <div class="col-md-4">
+       Hello <span sec:authentication="name"></span>!
+    </div>
+
+    <div class="col-md-4">
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign out" class="btn btn-sm btn-danger"/>
+        </form>
+    </div>
+
 		<tr>
 		    <th>Title</th>
 		    <th>Author</th>
@@ -23,11 +34,11 @@
             <td th:text="${book.publicationYear}"></td>
             <td th:text="${book.price}"></td>
             <td th:text="${book.category.name}"></td>
-            <td><a th:href ="@{/deletebook/{id}(id=${book.id})}" class="btn btn-danger">Delete</a></td>
-            <td><a th:href ="@{/editbook/{id}(id=${book.id})}">Edit</a></td>
+            <td sec:authorize="hasAuthority('ADMIN')"><a th:href ="@{/deletebook/{id}(id=${book.id})}" class="btn btn-danger">Delete</a></td>
+            <td sec:authorize="hasAuthority('ADMIN')"><a th:href ="@{/editbook/{id}(id=${book.id})}">Edit</a></td>
     
     	</tr>
      </table>
-     <p><a href="/addbook" class="btn btn-success">Add book</a></p>
+     <p sec:authorize="hasAuthority('ADMIN')"><a href="/addbook" class="btn btn-success">Add book</a></p>
 </body>
 </html>

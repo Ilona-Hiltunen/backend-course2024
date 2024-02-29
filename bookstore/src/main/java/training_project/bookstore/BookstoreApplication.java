@@ -4,6 +4,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import training_project.bookstore.domain.AppUser;
+import training_project.bookstore.domain.AppUserRepository;
 import training_project.bookstore.domain.Book;
 import training_project.bookstore.domain.BookRepository;
 import training_project.bookstore.domain.Category;
@@ -17,7 +20,7 @@ public class BookstoreApplication {
 	}
 
 	@Bean
-	public CommandLineRunner bookDemo(BookRepository repository, CategoryRepository cRepository) {
+	public CommandLineRunner bookDemo(BookRepository repository, CategoryRepository cRepository, AppUserRepository aRepository) {
 		//Mallia kirjoihin otettu Suomalaisen kirjakaupan sivustolta https://www.suomalainen.com/
 		return (args) -> {
 			System.out.println("Save books");
@@ -34,7 +37,15 @@ public class BookstoreApplication {
 			for (Book book : repository.findAll()) {
 				System.out.println(book.toString());
 			}
+
+			AppUser user1 = new AppUser("user", "$2a$10$mfyLs3laQX00O0oyW//jHuB5hHv0GvKwDYBZpnVYHxHK.NfsfI2XC", "moi123@gmail.com", "USER");
+			AppUser user2 = new AppUser("admin", "$2a$10$XC9Mi6FOHYmchKjwEOkPaOZRQq0uJ5yFuLAZUMxSZR3MbXEKHMBci", "hei123@gmail.com", "ADMIN");
+
+			aRepository.save(user1);
+			aRepository.save(user2);
+
 		};
+
 	}
 
 }

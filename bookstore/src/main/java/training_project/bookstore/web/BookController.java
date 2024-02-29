@@ -1,6 +1,7 @@
 package training_project.bookstore.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,7 @@ public class BookController {
         return "booklist";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/addbook")
     public String addBook(Model model) {
         model.addAttribute("book", new Book());
@@ -37,18 +39,21 @@ public class BookController {
         return "addbook";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/savebook")
     public String saveBook(@ModelAttribute("book") Book book) {
         repository.save(book);
         return "redirect:/booklist";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/deletebook/{id}")
     public String deleteBook(@PathVariable("id") Long id, Model model) {
         repository.deleteById(id);
         return "redirect:/booklist";
     }
     
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/editbook/{id}")
     public String editBook(@PathVariable("id") Long id, Model model) {
         model.addAttribute("book", repository.findById(id));
