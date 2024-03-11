@@ -89,9 +89,8 @@ public class Book {
         this.category = category;
     }
 
-    public Book(long id, String title, String author, String isbn, int publicationYear, double price,
+    public Book(String title, String author, String isbn, int publicationYear, double price,
             Category category) {
-        this.id = id;
         this.title = title;
         this.author = author;
         this.isbn = isbn;
